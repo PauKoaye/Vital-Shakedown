@@ -1,46 +1,27 @@
-#include <SFML/Graphics.hpp>
 #include <iostream>
-
+#include "Game.h"
 
 int main()
 {
-    //creation of the game window
-    
-    sf::RenderWindow window(sf::VideoMode(640, 480), "Vital Shakedown", sf::Style::Titlebar | sf::Style::Close);
-    sf::Event ev;   //event object to handle events within the window
    
+    //init game object
+
+    Game game;  //game object
+        
+           
     //game loop
 
-    while (window.isOpen())
-    {
-		//event handling
-        
-        while (window.pollEvent(ev))
-        {
-            switch (ev.type)
-            {
-           
-              case sf::Event::Closed:  //close the window manually when user clicks on the close button
-				window.close();
-				break;
-
-                case sf::Event::KeyPressed:  //event handling for key presses
-
-                    if (ev.key.code == sf::Keyboard::Escape)  //close the window when user presses the escape key
+    while (game.running())  //keep the window open until the user closes it
                     {
-						window.close();
-					}
 
-            }
-		}
+         //update
 		
+        game.update();  //update the game object
 		
-        //update
+	    //rendering
 		
-		//rendering
-		window.clear(); //clear old frame
+        game.render();  //render the game object
        
-        window.display(); //window is drawn to the screen
 	}
        //end of game loop
     
