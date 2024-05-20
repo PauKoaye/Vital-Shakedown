@@ -24,7 +24,7 @@ private:
 	// Private functions
 	void initializeVariables();
 	void initializeWindow();
-
+	
 
 public:
 	

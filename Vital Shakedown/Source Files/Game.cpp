@@ -20,8 +20,8 @@ void Game::initializeWindow()
 // Constructor / Destructor
 Game::Game() : 
 	
-	player1(100.f, 420.f, sf::Color::Red, sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::W),
-	player2(880.f, 420.f, sf::Color::Blue, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up) //constructor
+	player1(100.f, 520.f, sf::Color::Red, sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::W),
+	player2(880.f, 520.f, sf::Color::Blue, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up) //constructor
 				
 {
 	this->initializeVariables();

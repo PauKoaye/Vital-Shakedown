@@ -8,7 +8,7 @@ void Player::initializationVariables()
 {
 	this->movementSpeed = 5.f;
 	this->jumpSpeed = 350.f;
-	this->gravity = 0.5f;
+	this->gravity = 0.3f;
 	this->isJumping = false;
 	this->verticalSpeed = 0.f;
 
@@ -18,7 +18,7 @@ void Player::initializationVariables()
 
 void Player::initializationShape()
 {
-	this->shape.setSize(sf::Vector2f(100.f, 300.f));
+	this->shape.setSize(sf::Vector2f(100.f, 200.f));
 	this->shape.setFillColor(this->color);
 	
 }
@@ -105,7 +105,7 @@ void Player::updateWindowBoundsCollision(const sf::RenderTarget* target)
 		this->shape.setPosition(target->getSize().x - this->shape.getGlobalBounds().width, playerPosition.y); //sets the position of the player to the right side of the window, at the y position of the player before collision
 	}
 
-	
+
 }
 //update function for player
 void Player::update(const sf::RenderTarget* target)
@@ -130,3 +130,5 @@ void Player::render(sf::RenderTarget* target)
 	target->draw(this->shape);
 
 }
+
+
