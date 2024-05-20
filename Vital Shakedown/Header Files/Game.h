@@ -39,7 +39,10 @@ public:
 
 	// Functions
 	void pollEvents();
+	bool checkGameOver();
+	void GameOver();
 	void update();
 	void render();
+	
 
 };

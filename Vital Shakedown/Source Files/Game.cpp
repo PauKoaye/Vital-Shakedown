@@ -1,5 +1,6 @@
 #include "../Header Files/Game.h"
 #include <iostream>
+#include<stdlib.h>
 
 
 void Game::initializeVariables()
@@ -20,8 +21,8 @@ void Game::initializeWindow()
 // Constructor / Destructor
 Game::Game() : 
 	
-	player1(100.f, 520.f, sf::Color::Red, sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::W),
-	player2(880.f, 520.f, sf::Color::Blue, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up) //constructor
+	player1(100.f, 520.f, sf::Color::Red, sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::W, true),
+	player2(880.f, 520.f, sf::Color::Blue, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up, false) //constructor
 				
 {
 	this->initializeVariables();
@@ -75,6 +76,24 @@ void Game::pollEvents() //poll events function //event handling
 	}
 }
 
+bool Game::checkGameOver()
+{
+	if (this->player1.getHealth() <= 0 || this->player2.getHealth() <= 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void Game::GameOver()
+
+{
+	
+
+}
 
 
 void Game::update() //update function //game logic 
@@ -84,17 +103,25 @@ void Game::update() //update function //game logic
 	
 	this->player1.update(this->window);//update the player object
 	this->player2.update(this->window);//update the player object
-	
+
+
 }
 void Game::render() //render function //draws the game to the screen
 {
+	if (this->checkGameOver())
+	{
+		this->GameOver();
+	}
+		
 	this->window->clear(); //clears the window
 	this->player1.render(this->window); //renders the player object
 	this->player2.render(this->window); //renders the player object
 	this->window->display(); //displays the game objects
 
 	
+	
 }
+
 
 
 
