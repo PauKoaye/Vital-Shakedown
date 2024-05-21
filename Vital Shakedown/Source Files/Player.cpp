@@ -106,6 +106,11 @@ void Player::inputUpdate()
 
 }
 
+void Player::setisJumping(bool isJumping)
+{
+	this->isJumping = isJumping;
+}
+
 //window bounds collision
 void Player::updateWindowBoundsCollision(const sf::RenderTarget* target)
 {
@@ -141,10 +146,52 @@ void Player::updateWindowBoundsCollision(const sf::RenderTarget* target)
 
 
 }
+
+float Player::getHealth()
+{
+	return health;
+}
+
+sf::RectangleShape& Player::getShape()
+{
+	return shape;
+}
+
+
+
+
+void Player::handleCollision(sf::FloatRect intersection)
+{
+	float overlapX = intersection.width;
+	float overlapY = intersection.height;
+	
+	if (overlapX < overlapY) {
+		// Adjust horizontally
+		float moveAmount = overlapX / 2.f; // divide by 2 to move the minimum amount to resolve the collision //creates the illusion that the players stand still when both pushing into each other
+		if (shape.getPosition().x < intersection.left) {
+			shape.move(-moveAmount, 0.f);
+		}
+		else {
+			shape.move(moveAmount, 0.f);
+		}
+	}
+	else {
+		// Adjust vertically
+		float moveAmount = overlapY;
+		if (shape.getPosition().y< intersection.top) {
+			shape.move(0.f, -moveAmount);
+			this->isJumping = false;
+			this->verticalSpeed = 0.f;
+		}
+		
+	}
+
+
+}
+
+
+
 //update function for player
-
-
-
 
 	void Player::update(const sf::RenderTarget * target)
 	{
@@ -162,6 +209,8 @@ void Player::updateWindowBoundsCollision(const sf::RenderTarget* target)
 	
 	}
 
+	
+
 
 
 
@@ -172,9 +221,7 @@ void Player::render(sf::RenderTarget* target)
 
 }
 
-float Player::getHealth()
-{
-	return health;
-}
+
+
 
 

@@ -95,11 +95,42 @@ void Game::GameOver()
 
 }
 
+void Game::checkPlayerCollision(Player& player1, Player& player2)
+{
+	sf::FloatRect player1Bounds = player1.getShape().getGlobalBounds(); //get the global bounds of the player object
+	sf::FloatRect player2Bounds = player2.getShape().getGlobalBounds(); //get the global bounds of the player object
+	sf::FloatRect intersection; //variable to store the intersection of the two players
+
+	if(player1Bounds.intersects(player2Bounds,intersection)) //if the two players intersect stores the intersection in the intersection variable
+	{
+		std::cout<<"Collision Detected"<<std::endl;
+		player1.handleCollision(intersection);
+		player2.handleCollision(intersection);
+		
+	}
+	intersection= sf::FloatRect(0,0,0,0); //reset the intersection variable
+	
+	if(player1.getShape().getPosition().y > 300) //sets the player to jump if the player is on the ground so gravity can be applied
+	{
+		player1.setisJumping(true);
+
+	}
+	if (player2.getShape().getPosition().y > 300) //sets the player to jump if the player is on the ground so gravity can be applied
+	{
+		player2.setisJumping(true);
+	}
+
+	
+}
+
+
+
 
 void Game::update() //update function //game logic 
 
 {
 	this->pollEvents(); //call poll events
+	this->checkPlayerCollision(player1,player2);
 	
 	this->player1.update(this->window);//update the player object
 	this->player2.update(this->window);//update the player object
@@ -117,6 +148,7 @@ void Game::render() //render function //draws the game to the screen
 	this->player1.render(this->window); //renders the player object
 	this->player2.render(this->window); //renders the player object
 	this->window->display(); //displays the game objects
+	
 
 	
 	

@@ -25,6 +25,7 @@ private:
 	float verticalSpeed;
 	float x;
 	float y;
+	sf::FloatRect intersection;		//intersection of the two players when they collide
 	float health = 100.f;		//initial health of the player
 	bool isLeftPlayer=true; //if the player is the left player
 	
@@ -39,6 +40,7 @@ private:
 	sf::Color color; // Color of the player
 	sf::Color healthBarColor; // Color of the health bar
 
+	
 
 	
 
@@ -51,12 +53,23 @@ public:
 	//destructor
 	virtual ~Player(); // Destructor of the player
 
-	void inputUpdate();
-	float getHealth(); // Get the health of the player
-	void updateWindowBoundsCollision(const sf::RenderTarget* target);
-	void update(const sf::RenderTarget* target); 
-	void render(sf::RenderTarget* target);
+	
 
+
+	//accessors
+	float getHealth(); // Get the health of the player
+	void setisJumping(bool isJumping); // Set the jumping state of the player
+	
+	//functions
+	void handleCollision(sf::FloatRect intersection); // Handle the collision with another player
+	sf::RectangleShape& getShape(); // Get the shape of the player
+	
+	
+	//update and render functions
+	void inputUpdate(); // Update the input of the player
+	void updateWindowBoundsCollision(const sf::RenderTarget* target); // Update the collision with the window bounds
+	void update(const sf::RenderTarget* target); // Update the player
+	void render(sf::RenderTarget* target); // Render the player
 
 };
 

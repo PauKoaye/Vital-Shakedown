@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+
 // Class that acts as the game engine
 
 class Game
@@ -28,6 +29,7 @@ private:
 
 public:
 	
+	
 
 	// Constructor / Destructor
 	Game();
@@ -41,6 +43,7 @@ public:
 	void pollEvents();
 	bool checkGameOver();
 	void GameOver();
+	void checkPlayerCollision(Player& player1, Player& player2);
 	void update();
 	void render();
 	
