@@ -12,17 +12,24 @@
 class Player
 {
 private:
-	sf::RectangleShape shape; //player shape
+	sf::Sprite shape; //player shape
+	sf::Texture texture; //player texture
 	sf::RectangleShape healthBar; //health bar of the player
 	float movementSpeed;
 	void initializationVariables(); 
+	void initializationTexture(); // Initialize the texture of the player
 	void initializationShape();
 	void initializationHealthBar(bool isLeftPlayer);
+	
 	void healthDecrease(float damage, bool isLeftPlayer); // Decrease the health of the player
 	float jumpSpeed;
 	float gravity;
 	bool isJumping;
+	bool hasFallen;
+	bool hasJumped;
 	float verticalSpeed;
+	bool movingLeft;
+	bool movingRight;
 	float x;
 	float y;
 	sf::FloatRect intersection;		//intersection of the two players when they collide
@@ -40,7 +47,8 @@ private:
 	sf::Color color; // Color of the player
 	sf::Color healthBarColor; // Color of the health bar
 
-	
+	//animation variables
+	sf::IntRect currentFrame; // Current frame of the animation
 
 	
 
@@ -57,17 +65,25 @@ public:
 
 
 	//accessors
-	float getHealth(); // Get the health of the player
+	float getHealth() const; // Get the health of the player
 	void setisJumping(bool isJumping); // Set the jumping state of the player
+	
 	
 	//functions
 	void handleCollision(sf::FloatRect intersection); // Handle the collision with another player
-	sf::RectangleShape& getShape(); // Get the shape of the player
+	sf::Sprite& getShape(); // Get the shape of the player
+	
+	
+	void setMovementDirection(bool left, bool right);
+
+	// Update texture orientation based on movement direction
+	void updateTextureOrientation();
 	
 	
 	//update and render functions
 	void inputUpdate(); // Update the input of the player
 	void updateWindowBoundsCollision(const sf::RenderTarget* target); // Update the collision with the window bounds
+	
 	void update(const sf::RenderTarget* target); // Update the player
 	void render(sf::RenderTarget* target); // Render the player
 

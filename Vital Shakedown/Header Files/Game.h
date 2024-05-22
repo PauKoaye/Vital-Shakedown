@@ -41,9 +41,9 @@ public:
 
 	// Functions
 	void pollEvents();
-	bool checkGameOver();
-	void GameOver();
 	void checkPlayerCollision(Player& player1, Player& player2);
+	void handleCollision(Player& player1, Player& player2);
+	void updatePlayerOrientation();
 	void update();
 	void render();
 	

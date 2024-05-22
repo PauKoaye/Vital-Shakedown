@@ -21,8 +21,8 @@ void Game::initializeWindow()
 // Constructor / Destructor
 Game::Game() : 
 	
-	player1(100.f, 520.f, sf::Color::Red, sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::W, true),
-	player2(880.f, 520.f, sf::Color::Blue, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up, false) //constructor
+	player1(500.f, 720.f, sf::Color::Red, sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::W, true),
+	player2(900.f, 720.f, sf::Color::Blue, sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up, false) //constructor
 				
 {
 	this->initializeVariables();
@@ -76,48 +76,36 @@ void Game::pollEvents() //poll events function //event handling
 	}
 }
 
-bool Game::checkGameOver()
-{
-	if (this->player1.getHealth() <= 0 || this->player2.getHealth() <= 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 
-void Game::GameOver()
 
-{
-	
-
-}
 
 void Game::checkPlayerCollision(Player& player1, Player& player2)
 {
 	sf::FloatRect player1Bounds = player1.getShape().getGlobalBounds(); //get the global bounds of the player object
 	sf::FloatRect player2Bounds = player2.getShape().getGlobalBounds(); //get the global bounds of the player object
 	sf::FloatRect intersection; //variable to store the intersection of the two players
-
-	if(player1Bounds.intersects(player2Bounds,intersection)) //if the two players intersect stores the intersection in the intersection variable
+	bool collisionDetected = player1Bounds.intersects(player2Bounds, intersection); // Check if the two players intersect
+	
+	if(collisionDetected) //if the two players intersect stores the intersection in the intersection variable
 	{
 		std::cout<<"Collision Detected"<<std::endl;
 		player1.handleCollision(intersection);
 		player2.handleCollision(intersection);
 		
 	}
-	intersection= sf::FloatRect(0,0,0,0); //reset the intersection variable
+	intersection = sf::FloatRect(0, 0, 0, 0); //reset the intersection variable
+
+
 	
-	if(player1.getShape().getPosition().y > 300) //sets the player to jump if the player is on the ground so gravity can be applied
+	if(player1.getShape().getPosition().y<400) //sets the player to jump if the player is on the ground so gravity can be applied 
 	{
-		player1.setisJumping(true);
+		player1.setisJumping(true);	
 
 	}
-	if (player2.getShape().getPosition().y > 300) //sets the player to jump if the player is on the ground so gravity can be applied
+	if (player2.getShape().getGlobalBounds().top<400) //sets the player to jump if the player is on the ground so gravity can be applied
 	{
 		player2.setisJumping(true);
+	
 	}
 
 	
@@ -125,26 +113,35 @@ void Game::checkPlayerCollision(Player& player1, Player& player2)
 
 
 
+
+void Game::updatePlayerOrientation()
+{
+	player2.setMovementDirection(sf::Keyboard::isKeyPressed(sf::Keyboard::Left), sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
+	player1.setMovementDirection(sf::Keyboard::isKeyPressed(sf::Keyboard::A), sf::Keyboard::isKeyPressed(sf::Keyboard::D));
+
+	// Update texture orientation based on movement direction
+	player1.updateTextureOrientation();
+	player2.updateTextureOrientation();
+}
 
 void Game::update() //update function //game logic 
 
 {
 	this->pollEvents(); //call poll events
-	this->checkPlayerCollision(player1,player2);
 	
+	this->checkPlayerCollision(player1, player2);
 	this->player1.update(this->window);//update the player object
 	this->player2.update(this->window);//update the player object
+
 
 
 }
 void Game::render() //render function //draws the game to the screen
 {
-	if (this->checkGameOver())
-	{
-		this->GameOver();
-	}
+	
 		
 	this->window->clear(); //clears the window
+	this->updatePlayerOrientation(); //updates the player object orientation
 	this->player1.render(this->window); //renders the player object
 	this->player2.render(this->window); //renders the player object
 	this->window->display(); //displays the game objects
